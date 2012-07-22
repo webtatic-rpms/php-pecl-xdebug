@@ -46,10 +46,6 @@ of valuable debug information.
 mv package2.xml %{pecl_name}-%{version}/%{pecl_name}.xml
 cd xdebug-%{version}
 
-# fix rpmlint warnings
-iconv -f iso8859-1 -t utf-8 Changelog > Changelog.conv && mv -f Changelog.conv Changelog
-chmod -x *.[ch]
-
 
 %build
 cd xdebug-%{version}
@@ -84,7 +80,7 @@ EOF
 
 # install doc files
 install -d docs
-install -pm 644 Changelog CREDITS LICENSE NEWS README docs
+install -pm 644 CREDITS LICENSE NEWS README docs
 
 # Install XML package description
 install -d $RPM_BUILD_ROOT%{pecl_xmldir}
