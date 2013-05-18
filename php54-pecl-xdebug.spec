@@ -5,7 +5,7 @@
 %define pecl_name xdebug
 
 Name:           php54w-pecl-xdebug
-Version:        2.2.1
+Version:        2.2.2
 Release:        1%{?dist}
 Summary:        PECL package for debugging PHP scripts
 
@@ -115,6 +115,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sun Jul 22 2012 Andy Thompson <andy@webtatic.ocm> 2.2.1-1
+* Sat May 18 2013 Andy Thompson <andy@webtatic.com> 2.2.2-1
+- update to 2.2.2
+
+* Sun Jul 22 2012 Andy Thompson <andy@webtatic.com> 2.2.1-1
 - branch from php53-pecl-xdebug
 - update to 2.2.1
