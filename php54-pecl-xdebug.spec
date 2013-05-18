@@ -2,9 +2,10 @@
 %{!?__pecl:     %{expand: %%global __pecl     %{_bindir}/pecl}}
 %{!?php_extdir: %{expand: %%global php_extdir %(php-config --extension-dir)}}
 
+%define basepkg   php54w
 %define pecl_name xdebug
 
-Name:           php54w-pecl-xdebug
+Name:           %{basepkg}-pecl-xdebug
 Version:        2.2.2
 Release:        1%{?dist}
 Summary:        PECL package for debugging PHP scripts
@@ -15,7 +16,7 @@ URL:            http://pecl.php.net/package/xdebug
 Source0:        http://pecl.php.net/get/xdebug-%{version}.tgz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:  automake php54w-devel php54w-pear >= 1:1.4.9-1.2
+BuildRequires:  automake %{basepkg}-devel %{basepkg}-pear >= 1:1.4.9-1.2
 
 %if 0%{?fedora}
 %define config_flags --with-libedit
