@@ -85,12 +85,12 @@ install -pm 644 CREDITS LICENSE NEWS README docs
 
 # Install XML package description
 install -d $RPM_BUILD_ROOT%{pecl_xmldir}
-install -pm 644 %{pecl_name}.xml $RPM_BUILD_ROOT%{pecl_xmldir}/%{name}.xml
+install -pm 644 %{pecl_name}.xml $RPM_BUILD_ROOT%{pecl_xmldir}/%{pecl_name}.xml
 
 
 %if 0%{?pecl_install:1}
 %post
-%{pecl_install} %{pecl_xmldir}/%{name}.xml >/dev/null || :
+%{pecl_install} %{pecl_xmldir}/%{pecl_name}.xml >/dev/null || :
 %endif
 
 
@@ -112,12 +112,13 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/php.d/xdebug.ini
 %{php_extdir}/xdebug.so
 %{_bindir}/debugclient
-%{pecl_xmldir}/%{name}.xml
+%{pecl_xmldir}/%{pecl_name}.xml
 
 
 %changelog
 * Sat May 18 2013 Andy Thompson <andy@webtatic.com> 2.2.2-1
 - update to 2.2.2
+- fix pecl xml location
 
 * Sun Jul 22 2012 Andy Thompson <andy@webtatic.com> 2.2.1-1
 - branch from php53-pecl-xdebug
