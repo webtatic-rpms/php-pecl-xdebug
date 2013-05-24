@@ -6,7 +6,7 @@
 %define pecl_name xdebug
 
 Name:           %{basepkg}-pecl-xdebug
-Version:        2.2.2
+Version:        2.2.3
 Release:        1%{?dist}
 Summary:        PECL package for debugging PHP scripts
 
@@ -116,6 +116,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri May 24 2013 Andy Thompson <andy@webtatic.com> 2.2.3-1
+- update to 2.2.3
+
 * Sat May 18 2013 Andy Thompson <andy@webtatic.com> 2.2.2-1
 - update to 2.2.2
 - fix pecl xml location
