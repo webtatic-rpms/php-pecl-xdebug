@@ -2,7 +2,7 @@
 %{!?__pecl:     %{expand: %%global __pecl     %{_bindir}/pecl}}
 %{!?php_extdir: %{expand: %%global php_extdir %(php-config --extension-dir)}}
 
-%define basepkg   php54w
+%define basepkg   php55w
 %define pecl_name xdebug
 
 Name:           %{basepkg}-pecl-xdebug
@@ -117,12 +117,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Fri May 24 2013 Andy Thompson <andy@webtatic.com> 2.2.3-1
-- update to 2.2.3
-
-* Sat May 18 2013 Andy Thompson <andy@webtatic.com> 2.2.2-1
-- update to 2.2.2
-- fix pecl xml location
-
-* Sun Jul 22 2012 Andy Thompson <andy@webtatic.com> 2.2.1-1
-- branch from php53-pecl-xdebug
-- update to 2.2.1
+- branch from php54w-pecl-xdebug
