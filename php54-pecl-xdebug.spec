@@ -1,13 +1,15 @@
 %global php_apiver  %((echo 0; php -i 2>/dev/null | sed -n 's/^PHP API => //p') | tail -1)
 %{!?__pecl:     %{expand: %%global __pecl     %{_bindir}/pecl}}
-%{!?php_extdir: %{expand: %%global php_extdir %(php-config --extension-dir)}}
+
+# Build ZTS extension or only NTS
+%global with_zts      1
 
 %define basepkg   php54w
 %define pecl_name xdebug
 
 Name:           %{basepkg}-pecl-xdebug
 Version:        2.2.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PECL package for debugging PHP scripts
 
 License:        BSD
@@ -42,16 +44,19 @@ of valuable debug information.
 
 
 %prep
-%setup -qcn %{pecl_name}-%{version}
+%setup -qc
 [ -f package2.xml ] || mv package.xml package2.xml
-mv package2.xml %{pecl_name}-%{version}/%{pecl_name}.xml
-cd %{pecl_name}-%{version}
+mv package2.xml %{pecl_name}.xml
+
+%if %{with_zts}
+cp -r %{pecl_name}-%{version} %{pecl_name}-%{version}-zts
+%endif
 
 
 %build
-cd %{pecl_name}-%{version}
+pushd %{pecl_name}-%{version}
 phpize
-%configure --enable-xdebug
+%configure --enable-xdebug --with-php-config=%{_bindir}/php-config
 CFLAGS="$RPM_OPT_FLAGS" make
 
 # Build debugclient
@@ -61,11 +66,23 @@ chmod +x configure
 %configure %{config_flags}
 CFLAGS="$RPM_OPT_FLAGS" make
 popd
+popd
+
+%if %{with_zts}
+pushd %{pecl_name}-%{version}-zts
+zts-phpize
+%configure --enable-xdebug --with-php-config=%{_bindir}/zts-php-config
+CFLAGS="$RPM_OPT_FLAGS" make
+popd
+%endif
 
 
 %install
-cd %{pecl_name}-%{version}
 rm -rf $RPM_BUILD_ROOT
+
+pushd %{pecl_name}-%{version}
+
+# install NZTS extension
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
 
 # install debugclient
@@ -73,15 +90,30 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 install -pm 755 debugclient/debugclient $RPM_BUILD_ROOT%{_bindir}
 
 # install config file
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/php.d
-cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/%{pecl_name}.ini << 'EOF'
+install -d $RPM_BUILD_ROOT%{php_inidir}
+cat > $RPM_BUILD_ROOT%{php_inidir}/%{pecl_name}.ini << 'EOF'
 ; Enable xdebug extension module
 zend_extension=%{php_extdir}/%{pecl_name}.so
 EOF
 
-# install doc files
-install -d docs
-install -pm 644 CREDITS LICENSE NEWS README docs
+popd
+
+%if %{with_zts}
+pushd %{pecl_name}-%{version}-zts
+
+# install ZTS extension
+make install INSTALL_ROOT=$RPM_BUILD_ROOT
+
+# install config file
+install -d $RPM_BUILD_ROOT%{php_ztsinidir}
+cat > $RPM_BUILD_ROOT%{php_ztsinidir}/%{pecl_name}.ini << 'EOF'
+; Enable xdebug extension module
+zend_extension=%{php_ztsextdir}/%{pecl_name}.so
+EOF
+
+popd
+%endif
+
 
 # Install XML package description
 install -d $RPM_BUILD_ROOT%{pecl_xmldir}
@@ -108,14 +140,21 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc %{pecl_name}-%{version}/docs/*
-%config(noreplace) %{_sysconfdir}/php.d/%{pecl_name}.ini
+%doc %{pecl_name}-%{version}/{CREDITS,LICENSE,NEWS,README}
+%config(noreplace) %{php_inidir}/%{pecl_name}.ini
 %{php_extdir}/%{pecl_name}.so
 %{_bindir}/debugclient
 %{pecl_xmldir}/%{pecl_name}.xml
+%if %{with_zts}
+%config(noreplace) %{php_ztsinidir}/%{pecl_name}.ini
+%{php_ztsextdir}/%{pecl_name}.so
+%endif
 
 
 %changelog
+* Sat Jul 20 2013 Andy Thompson <andy@webtatic.com> 2.2.3-2
+- Add ZTS extension compilation
+
 * Fri May 24 2013 Andy Thompson <andy@webtatic.com> 2.2.3-1
 - update to 2.2.3
 
