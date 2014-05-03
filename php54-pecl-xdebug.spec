@@ -8,8 +8,8 @@
 %define pecl_name xdebug
 
 Name:           %{basepkg}-pecl-xdebug
-Version:        2.2.3
-Release:        2%{?dist}
+Version:        2.2.5
+Release:        1%{?dist}
 Summary:        PECL package for debugging PHP scripts
 
 License:        BSD
@@ -152,6 +152,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat May 03 2014 Andy Thompson <andy@webtatic.com> 2.2.5-1
+- update to 2.2.5
+
 * Sat Jul 20 2013 Andy Thompson <andy@webtatic.com> 2.2.3-2
 - Add ZTS extension compilation
 
