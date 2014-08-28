@@ -4,7 +4,7 @@
 # Build ZTS extension or only NTS
 %global with_zts      1
 
-%define basepkg   php55w
+%define basepkg   php56w
 %define pecl_name xdebug
 
 Name:           %{basepkg}-pecl-xdebug
@@ -152,11 +152,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sat May 03 2014 Andy Thompson <andy@webtatic.com> 2.2.5-1
-- Add ZTS extension compilation
-
-* Sat Jul 20 2013 Andy Thompson <andy@webtatic.com> 2.2.3-2
-- Add ZTS extension compilation
-
-* Fri May 24 2013 Andy Thompson <andy@webtatic.com> 2.2.3-1
-- branch from php54w-pecl-xdebug
+* Thu Aug 28 2014 Andy Thompson <andy@webtatic.com> 2.2.5-1
+- branch from php55w-pecl-xdebug
