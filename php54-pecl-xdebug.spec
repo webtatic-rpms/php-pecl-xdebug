@@ -1,11 +1,9 @@
 %global php_apiver  %((echo 0; php -i 2>/dev/null | sed -n 's/^PHP API => //p') | tail -1)
 %{!?__pecl:     %{expand: %%global __pecl     %{_bindir}/pecl}}
 
-# Build ZTS extension or only NTS
-%global with_zts      1
-
-%define basepkg   php54w
-%define pecl_name xdebug
+%global basepkg   php54w
+%global pecl_name xdebug
+%global with_zts  0%{?__ztsphp:1}
 
 Name:           %{basepkg}-pecl-xdebug
 Version:        2.2.5
