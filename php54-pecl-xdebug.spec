@@ -9,7 +9,7 @@
 
 Name:           %{basepkg}-pecl-xdebug
 Version:        2.2.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        PECL package for debugging PHP scripts
 
 License:        BSD
@@ -36,6 +36,12 @@ Requires:       php(zend-abi) = %{php_zend_api}
 Requires:       php(api) = %{php_core_api}
 %else
 Requires:       php-api = %{php_apiver}
+%endif
+
+%if 0%{?fedora} < 20 && 0%{?rhel} < 7
+# Filter private shared
+%{?filter_provides_in: %filter_provides_in %{_libdir}/.*\.so$}
+%{?filter_setup}
 %endif
 
 %description
@@ -152,6 +158,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Sep 14 2014 Andy Thompson <andy@webtatic.com> 2.2.5-2
+- Filter .so provides < EL7
+
 * Sat May 03 2014 Andy Thompson <andy@webtatic.com> 2.2.5-1
 - update to 2.2.5
 
