@@ -1,14 +1,12 @@
 %global php_apiver  %((echo 0; php -i 2>/dev/null | sed -n 's/^PHP API => //p') | tail -1)
 %{!?__pecl:     %{expand: %%global __pecl     %{_bindir}/pecl}}
 
-# Build ZTS extension or only NTS
-%global with_zts      1
-
-%define basepkg   php56w
-%define pecl_name xdebug
+%global basepkg   php56w
+%global pecl_name xdebug
+%global with_zts  0%{?__ztsphp:1}
 
 Name:           %{basepkg}-pecl-xdebug
-Version:        2.2.5
+Version:        2.2.6
 Release:        1%{?dist}
 Summary:        PECL package for debugging PHP scripts
 
@@ -36,6 +34,12 @@ Requires:       php(zend-abi) = %{php_zend_api}
 Requires:       php(api) = %{php_core_api}
 %else
 Requires:       php-api = %{php_apiver}
+%endif
+
+%if 0%{?fedora} < 20 && 0%{?rhel} < 7
+# Filter private shared
+%{?filter_provides_in: %filter_provides_in %{_libdir}/.*\.so$}
+%{?filter_setup}
 %endif
 
 %description
@@ -152,5 +156,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov 27 2014 Andy Thompson <andy@webtatic.com> 2.2.6-1
+- update to 2.2.6
+
 * Thu Aug 28 2014 Andy Thompson <andy@webtatic.com> 2.2.5-1
 - branch from php55w-pecl-xdebug
