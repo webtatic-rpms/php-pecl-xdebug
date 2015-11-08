@@ -55,12 +55,12 @@ of valuable debug information.
 mv package2.xml %{pecl_name}.xml
 
 %if %{with_zts}
-cp -r %{pecl_name}-%{version} %{pecl_name}-%{version}-zts
+cp -r %{pecl_name}-%{version}%{?rcver} %{pecl_name}-%{version}%{?rcver}-zts
 %endif
 
 
 %build
-pushd %{pecl_name}-%{version}
+pushd %{pecl_name}-%{version}%{?rcver}
 phpize
 %configure --enable-xdebug --with-php-config=%{_bindir}/php-config
 CFLAGS="$RPM_OPT_FLAGS" make
@@ -75,7 +75,7 @@ popd
 popd
 
 %if %{with_zts}
-pushd %{pecl_name}-%{version}-zts
+pushd %{pecl_name}-%{version}%{?rcver}-zts
 zts-phpize
 %configure --enable-xdebug --with-php-config=%{_bindir}/zts-php-config
 CFLAGS="$RPM_OPT_FLAGS" make
@@ -86,7 +86,7 @@ popd
 %install
 rm -rf $RPM_BUILD_ROOT
 
-pushd %{pecl_name}-%{version}
+pushd %{pecl_name}-%{version}%{?rcver}
 
 # install NZTS extension
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
@@ -105,7 +105,7 @@ EOF
 popd
 
 %if %{with_zts}
-pushd %{pecl_name}-%{version}-zts
+pushd %{pecl_name}-%{version}%{?rcver}-zts
 
 # install ZTS extension
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
@@ -146,7 +146,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc %{pecl_name}-%{version}/{CREDITS,LICENSE,NEWS,README}
+%doc %{pecl_name}-%{version}%{?rcver}/{CREDITS,LICENSE,NEWS,README}
 %config(noreplace) %{php_inidir}/%{pecl_name}.ini
 %{php_extdir}/%{pecl_name}.so
 %{_bindir}/debugclient
