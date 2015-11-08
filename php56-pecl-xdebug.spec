@@ -146,7 +146,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc %{pecl_name}-%{version}%{?rcver}/{CREDITS,LICENSE,NEWS,README}
+%doc %{pecl_name}-%{version}%{?rcver}/{CREDITS,LICENSE,README.rst}
 %config(noreplace) %{php_inidir}/%{pecl_name}.ini
 %{php_extdir}/%{pecl_name}.so
 %{_bindir}/debugclient
