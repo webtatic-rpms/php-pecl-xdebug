@@ -5,11 +5,9 @@
 %global pecl_name xdebug
 %global with_zts  0%{?__ztsphp:1}
 
-%global rcver RC3
-
 Name:           %{basepkg}-pecl-xdebug
 Version:        2.4.0
-Release:        0.3%{?rcver:.%{rcver}}%{?dist}
+Release:        1%{?rcver:.%{rcver}}%{?dist}
 Summary:        PECL package for debugging PHP scripts
 
 License:        BSD
@@ -158,6 +156,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Mar 20 2016 Andy Thompson <andy@webtatic.com> 2.4.0-1
+- update to 2.4.0
+
 * Sun Nov 08 2015 Andy Thompson <andy@webtatic.com> 2.4.0-0.3.RC3
 - update to 2.4.0RC3
 
