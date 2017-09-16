@@ -7,7 +7,7 @@
 
 Name:           %{basepkg}-pecl-xdebug
 Version:        2.5.5
-Release:        1%{?rcver:.%{rcver}}%{?dist}
+Release:        2%{?rcver:.%{rcver}}%{?dist}
 Summary:        PECL package for debugging PHP scripts
 
 License:        BSD
@@ -156,6 +156,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Sep 16 2017 Andy Thompson <andy@webtatic.com> 2.5.5-2
+- rebuild for EL7.4
+
 * Sun Jun 25 2017 Andy Thompson <andy@webtatic.com> 2.5.5-1
 - update to 2.5.5
 
