@@ -1,8 +1,5 @@
 name: php-pecl-xdebug
 profiles:
-  php56w:
-    define:
-      basepkg: php56w
   php70w:
     define:
       basepkg: php70w
@@ -17,7 +14,6 @@ builds:
     target: el7-development
     arch: [x86_64]
     profiles:
-      - php56w
       - php70w
       - php71w
       - php72w
@@ -25,6 +21,5 @@ builds:
     target: el6-development
     arch: [x86_64, i386]
     profiles:
-      - php56w
       - php70w
       - php71w
